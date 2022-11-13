@@ -1,7 +1,12 @@
 import Slider from "rc-slider";
+import {ReactNode} from "react";
 import {buildings, roomTypes} from "../mocks/data";
 
-const Section = ({children}) => (
+interface SectionProps {
+  children?: ReactNode | ReactNode[];
+}
+
+const Section = ({children}: SectionProps) => (
   <div className="pt-3">
     <div className="border-b-3 pr-1 pl-1 pb-3 border-b-2 border-light-gray">
       {children}

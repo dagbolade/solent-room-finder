@@ -1,26 +1,13 @@
-import {ChevronRightIcon, HomeIcon} from "@heroicons/react/outline";
-import Image from "next/image";
-import Link from "next/link";
-
 import {GetServerSideProps} from "next";
+import Image from "next/image";
 import dbConnect from "../../../../lib/dbConnect";
 import Room from "../../../../models/Room";
+import BreadCrumb from "../../../components/BreadCrumb";
 
 export default function index({room}) {
   return (
     <div className="max-w-[80%] mx-auto mt-11">
-      <div className="bg-white  mt-11 p-2 rounded-lg shadow-md flex">
-        <HomeIcon className="h-7 w-7" />
-        <Link href="/">
-          <a className=" cursor-pointer font-semibold  mt-1 ml-1"> Home </a>
-        </Link>
-        <ChevronRightIcon className="h-5 w-5 mt-2 ml-1" />
-        <p className="font-semibold mt-1">
-          {" "}
-          {room.building}
-          {room.number}
-        </p>
-      </div>
+      <BreadCrumb label={room.building + room.number} />
       <div className="bg-white mt-5 p-5 rounded-lg shadow-md w-full flex">
         <div>
           <Image
@@ -32,9 +19,8 @@ export default function index({room}) {
         </div>
         <div className="min-w-[40%] ml-3">
           <h1 className="text-xl mb-6">
-            {" "}
             {room.building}
-            {room.number}{" "}
+            {room.number}
           </h1>
           <div className="flex justify-between border-b-2 border-light-gray mb-6">
             <h2 className="font-semibold"> Student Capacity </h2>
@@ -43,12 +29,10 @@ export default function index({room}) {
           <div className="min-w-[40%] mb-6">
             <div className="flex justify-between border-b-2 border-light-gray">
               <h2 className="font-semibold"> Type </h2>
-              <h2 className="font-semibold"> {room.type.name} </h2>
+              <h2 className="font-semibold"> {room.type.name}</h2>
             </div>
           </div>
-          <div>
-            <p>{room.notes}</p>
-          </div>
+          <div>{room.notes}</div>
         </div>
       </div>
     </div>
@@ -56,7 +40,6 @@ export default function index({room}) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
-  //connect to the db
   await dbConnect();
   const room = await Room.findById(params.id).lean();
   return {props: {room: {...room, _id: room._id.toString()}}};

@@ -11,6 +11,9 @@ module.exports = {
         "light-gray": "#E5E7EB",
         "very-light-gray": "#F9FAFB",
       },
+      transitionDuration: {
+        5000: "5000ms",
+      },
     },
   },
   plugins: [],

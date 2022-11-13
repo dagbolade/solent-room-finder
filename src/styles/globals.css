@@ -5,8 +5,27 @@
 @tailwind utilities;
 
 @layer components {
+  .button {
+    @apply cursor-pointer  focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2
+    focus:ring-offset-slate-50 text-white h-12 px-6 rounded-lg w-40 
+    flex items-center;
+  }
+
+  /* .blue-button {
+    @apply button  bg-sky-500 hover:bg-sky-400 
+    
+  } */
+
   .blue-button {
-    @apply cursor-pointer justify-between bg-sky-500 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white h-12 px-6 rounded-lg w-40 flex items-center;
+    @apply button  bg-sky-500 hover:bg-sky-400;
+  }
+
+  .green-button {
+    @apply button  bg-green-500 hover:bg-green-400;
+  }
+
+  .red-button {
+    @apply button  bg-red-500 hover:bg-red-400;
   }
 
   .blue-button_no-icon {

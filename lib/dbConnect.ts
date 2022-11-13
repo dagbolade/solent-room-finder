@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-/**
+/***
  * code taken from: https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js
  */
 

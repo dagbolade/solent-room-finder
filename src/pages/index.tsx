@@ -1,20 +1,13 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  PlusIcon,
-  XCircleIcon,
-} from "@heroicons/react/outline";
+import {PlusIcon, XCircleIcon} from "@heroicons/react/outline";
+import {GetServerSideProps} from "next";
 import Head from "next/head";
 import Link from "next/link";
 import {useState} from "react";
 import Modal from "react-modal";
+import dbConnect from "../../lib/dbConnect";
+import Room from "../../models/Room";
 import Filter from "../components/Filter";
 import RoomForm from "../components/RoomForm";
-
-// communicating frontend with the backend
-import Room from "../../models/Room";
-import {GetServerSideProps} from "next";
-import dbConnect from "../../lib/dbConnect";
 
 export default function Home({rooms}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -46,7 +39,7 @@ export default function Home({rooms}) {
         <div className="max-w-[80%] mx-auto mt-11">
           <div>
             <Link href="/create">
-              <a className="blue-button">
+              <a className="blue-button" data-test ="add-room-button">
                 <PlusIcon className="h-5 w-5" /> Add Room{" "}
               </a>
             </Link>
@@ -66,8 +59,8 @@ export default function Home({rooms}) {
                   .filter((r) => r.capacity >= capacity)
                   .map((r, i) => (
                     <tr
-                      key={r.id}
-                      className={(i + 1) % 2 === 0 ? "bg-gray-100" : ""}
+                      key={r._id}
+                      className={(i + 1) % 2 === 0 ? "bg-gray-100" : ""} data-test ="room-item"
                     >
                       <td className="p-2 text-blue rounded-l-lg">
                         <Link href={`/rooms/${r._id}`}>
@@ -84,7 +77,7 @@ export default function Home({rooms}) {
                   ))}
               </tbody>
             </table>
-            <div className="mt-6 flex justify-between">
+            {/* <div className="mt-6 flex justify-between">
               <h3 className="text-sm mt-5">
                 Showing <b>1</b> to <b>10</b> of <b>97</b> Results
               </h3>
@@ -103,7 +96,7 @@ export default function Home({rooms}) {
                   <ChevronRightIcon className="h-5 w-5" />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -123,15 +116,15 @@ export default function Home({rooms}) {
     </div>
   );
 }
+
 export const getServerSideProps: GetServerSideProps = async () => {
-  dbConnect();
+  await dbConnect();
+
   const results = await Room.find({}).lean();
   const rooms = results.map((doc) => ({
     ...doc,
     ...{_id: doc._id.toString()},
   }));
-  console.log(rooms);
 
-  //passing rooms to the front end
   return {props: {rooms: rooms}};
 };
